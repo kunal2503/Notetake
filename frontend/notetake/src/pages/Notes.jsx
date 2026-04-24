@@ -1,6 +1,6 @@
 
 
-const Home = () => {
+const Notes = () => {
     return (
         <div className="w-full h-full flex items-center justify-center">
             <h1 className="text-4xl font-bold text-gray-800">Welcome to NoteTake</h1>
@@ -8,4 +8,4 @@ const Home = () => {
     )
 }   
 
-export default Home;
+export default Notes;

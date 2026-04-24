@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import Dashboard from "../pages/DashBoard";
 import {  Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
+import Notes from "../pages/Notes";
 import NotFound from "../pages/NotFound";
 
 const MainLayout = () => {
@@ -12,8 +12,8 @@ const MainLayout = () => {
             </div>
             <div className="w-full h-full mt-10">
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/Notes" element={<Notes />} />
                     <Route path="/*" element={<NotFound />} />
                 </Routes>
             </div>

@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Signin from "./auth/Signin";
-import Signup from "./auth/Signup";
+import Signin from "./pages/auth/Signin";
+import Signup from "./pages/auth/Signup";
 import MainLayout from "./layout/MainLayout";
 
-const App = () =>{
+const App = ()=>{
 
   return (
     <BrowserRouter>

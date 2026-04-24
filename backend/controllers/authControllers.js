@@ -5,7 +5,8 @@ const bcrypt = require("bcrypt");
 const signin = (req,res)=>{
     try{
         const {username,email,password} = req.body;
-
+        console.log(req.body)
+        
         if(!username || !email || !password){
             return res.status(400).json({message : "All field required"});
         }
@@ -18,6 +19,8 @@ const signin = (req,res)=>{
 
 const signup = (req,res)=>{
     try{
+        const {username, email, password} = req.body;
+        console.log(req.body);
         
     } catch(error){
         res.status(500).json({message :"Internal server error"});
