@@ -18,7 +18,7 @@ const Signup = () => {
         try{
             e.preventDefault();
             const response = await axiosInstance.post("/auth/signup",formData);
-            console.log(response.data);
+            console.log(response.data.message);
 
         } catch(error){
             console.log(error);

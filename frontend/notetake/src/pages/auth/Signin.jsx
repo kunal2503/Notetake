@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import axios from "axios";
 import axiosInstance from '../../utils/axiosInstance';
+import { useState } from 'react';
 
 const Signin = () => {
     const [formData, setFormData] = useState({
@@ -17,8 +18,13 @@ const Signin = () => {
         try{
             e.preventDefault();
             const response = await axiosInstance.post("/auth/signin",formData);
-            console.log(response.data);
+            console.log(response.data.message);
 
+            if(response.data.token || response.status === 200){
+                localStorage.setItem("token",response.data.token);
+                localStorage.setItem("user",JSON.stringify(response.data.user));
+                window.location.href = "/";
+            }
 
         } catch(error){
             console.log(error);

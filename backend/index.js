@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/connectDB");
 const authRouter = require("./router/authRouter");
+const noteRouter = require("./router/noteRouter");
 
 
 const app = express();
@@ -24,6 +25,7 @@ const startServer = async () => {
     }
     
     app.use("/api/v1",authRouter);
+    app.use("/api/v1",noteRouter);
     
     app.get("/",(req,res)=>{
         console.log("Hello from root.")
