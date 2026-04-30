@@ -1,46 +1,102 @@
-import {LayoutDashboard,LogOut,LucideStickyNote, Settings, MenuIcon, X} from "lucide-react"
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import {
+  LayoutDashboard,
+  LogOut,
+  StickyNote,
+  Settings,
+  X,
+} from "lucide-react";
+import { NavLink } from "react-router-dom";
 
-const SideBar = ({sideBarOpen}) => {
+const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
+  const closeSidebar = () => setSideBarOpen(false);
+
+  const navItem =
+    "flex items-center gap-3 px-4 py-3 rounded-lg transition";
+
   return (
-    <div className="md:hidden absolute top-20 right-10 bg-gray-50 rounded-lg ">
-      <ul className="flex flex-col items-center justify-start w-full">
-        <li className="flex items-center justify-start w-full px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
-          <Link
-            className="flex items-center justify-start gap-2"
-            to={"/dashboard"}
+    <>
+      {/* Overlay */}
+      <div
+        className={`fixed inset-0 bg-black/40 z-40 transition-opacity ${
+          sideBarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={closeSidebar}
+      ></div>
+
+      {/* Sidebar */}
+      <div
+        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50 p-5 transform transition-transform duration-300 ${
+          sideBarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-blue-600">
+            NoteTake
+          </h2>
+          <button onClick={closeSidebar}>
+            <X />
+          </button>
+        </div>
+
+        {/* Menu */}
+        <nav className="flex flex-col gap-2">
+          <NavLink
+            to="/dashboard"
+            onClick={closeSidebar}
+            className={({ isActive }) =>
+              `${navItem} ${
+                isActive
+                  ? "bg-blue-100 text-blue-600"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`
+            }
           >
-            <LayoutDashboard className="text-gray-600" size={20} />
-            <span className="font-medium text-gray-700">Dashboard</span>
-          </Link>
-        </li>
-        <li className="flex items-center justify-start w-full px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
-          <Link className="flex items-center justify-start gap-2" to={"/"}>
-            <LucideStickyNote className="text-gray-600" size={20} />
-            <span className="font-medium text-gray-700">Notes</span>
-          </Link>
-        </li>
-        <li className="flex items-center justify-start w-full px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
-          <Link
-            className="flex items-center justify-start gap-2"
-            to={"/setting"}
+            <LayoutDashboard size={18} />
+            Dashboard
+          </NavLink>
+
+          <NavLink
+            to="/"
+            onClick={closeSidebar}
+            className={({ isActive }) =>
+              `${navItem} ${
+                isActive
+                  ? "bg-blue-100 text-blue-600"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`
+            }
           >
-            <Settings className="text-gray-600" size={20} />
-            <span className="font-medium text-gray-700">Settings</span>
-          </Link>
-        </li>
-        <li className="flex items-center justify-start w-full px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer">
-          <Link
-            className="flex items-center justify-start gap-2"
-            to={"/logout"}
+            <StickyNote size={18} />
+            Notes
+          </NavLink>
+
+          <NavLink
+            to="/setting"
+            onClick={closeSidebar}
+            className={({ isActive }) =>
+              `${navItem} ${
+                isActive
+                  ? "bg-blue-100 text-blue-600"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`
+            }
           >
-            <LogOut className="text-gray-600" size={20} />
-            <span className="font-medium text-gray-700">Logout</span>
-          </Link>
-        </li>
-      </ul>
-    </div>
+            <Settings size={18} />
+            Settings
+          </NavLink>
+
+          <NavLink
+            to="/logout"
+            onClick={closeSidebar}
+            className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+          >
+            <LogOut size={18} />
+            Logout
+          </NavLink>
+        </nav>
+      </div>
+    </>
   );
 };
 

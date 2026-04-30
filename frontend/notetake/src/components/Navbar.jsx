@@ -1,59 +1,135 @@
-import {LayoutDashboard,LogOut,LucideStickyNote, Settings, MenuIcon, X} from "lucide-react"
+import {
+  LayoutDashboard,
+  LogOut,
+  StickyNote,
+  Settings,
+  Menu,
+  X,
+} from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import SideBar from "./SideBar";
 
-
 const Navbar = () => {
-    const [sideBarOpen, setSideBarOpen] = useState(false);
+  const [sideBarOpen, setSideBarOpen] = useState(false);
 
-    const handleSideBarOpen = () =>{
-        setSideBarOpen(!sideBarOpen);
-    }
+  const toggleSidebar = () => {
+    setSideBarOpen(!sideBarOpen);
+  };
 
-    return (
-        <nav className="bg-white shadow-sm border-b border-gray-200">
-            <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
-                <h1 className="font-bold text-2xl text-gray-800">NoteTake</h1>
-                <ul className="hidden md:flex items-center justify-center gap-6">
-                    <li className="flex items-center justify-center  px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
-                        <Link className="flex items-center justify-center gap-2" to={"/dashboard"}>
-                        <LayoutDashboard className="text-gray-600" size={20} />
-                        <span className="font-medium text-gray-700">Dashboard</span>
-                        </Link>
-                    </li>
-                    <li className="flex items-center justify-center px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
-                        <Link className="flex items-center justify-center gap-2" to={"/"}>
-                        <LucideStickyNote className="text-gray-600" size={20} />
-                        <span className="font-medium text-gray-700">Notes</span>
-                        </Link>
-                    </li>
-                    <li className="flex items-center justify-center px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
-                        <Link className="flex items-center justify-center gap-2" to={"/setting"}>
-                        <Settings className="text-gray-600" size={20} />
-                        <span className="font-medium text-gray-700">Settings</span>
-                        </Link>
-                    </li>
-                    <li className="flex items-center justify-center px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer">
-                        <Link className="flex items-center justify-center gap-2" to={"/logout"}>
-                            <LogOut className="text-gray-600" size={20} />
-                            <span className="font-medium text-gray-700">Logout</span>
-                        </Link>
-                    </li>
-                </ul>
-                {/* Mobile menu button - for simplicity, assuming no toggle state yet */}
-                <button className="md:hidden text-gray-600" onClick={handleSideBarOpen}>
-                    {sideBarOpen ? <X className="text-gray-600" size={20} /> :
+  const navLinkClass =
+    "flex items-center gap-2 px-3 py-2 rounded-lg transition";
 
-                        <MenuIcon  className="text-gray-600" size={20} />
-                    }
-                </button>
-                { sideBarOpen ?
-                     <SideBar sideBarOpen={sideBarOpen}/> : null
-                }
-            </div>
-        </nav>
-    )
-}
+  return (
+    <>
+      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
+          
+          {/* Logo */}
+          <h1 className="font-bold text-2xl text-blue-600 tracking-tight">
+            NoteTake
+          </h1>
+
+          {/* Desktop Menu */}
+          <ul className="hidden md:flex items-center gap-4">
+            
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `${navLinkClass} ${
+                  isActive
+                    ? "bg-blue-100 text-blue-600"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`
+              }
+            >
+              <LayoutDashboard size={18} />
+              Dashboard
+            </NavLink>
+
+            <NavLink
+              to="/Notes"
+              className={({ isActive }) =>
+                `${navLinkClass} ${
+                  isActive
+                    ? "bg-blue-100 text-blue-600"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`
+              }
+            >
+              <StickyNote size={18} />
+              Notes
+            </NavLink>
+
+            <NavLink
+              to="/setting"
+              className={({ isActive }) =>
+                `${navLinkClass} ${
+                  isActive
+                    ? "bg-blue-100 text-blue-600"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`
+              }
+            >
+              <Settings size={18} />
+              Settings
+            </NavLink>
+
+            {/* Logout */}
+            <NavLink
+              to="/logout"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+            >
+              <LogOut size={18} />
+              Logout
+            </NavLink>
+          </ul>
+
+          {/* Mobile Button */}
+          <button
+            className="md:hidden text-gray-700"
+            onClick={toggleSidebar}
+          >
+            {sideBarOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Sidebar Overlay */}
+      {sideBarOpen && (
+        <div className="fixed inset-0 z-40 flex">
+          
+          {/* Background Overlay */}
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={toggleSidebar}
+          ></div>
+
+          {/* Sidebar */}
+          <div className="relative z-50 w-64 bg-white h-full shadow-lg animate-slideIn">
+            <SideBar />
+          </div>
+        </div>
+      )}
+
+      {/* Animation */}
+      <style>
+        {`
+          @keyframes slideIn {
+            from {
+              transform: translateX(-100%);
+            }
+            to {
+              transform: translateX(0);
+            }
+          }
+          .animate-slideIn {
+            animation: slideIn 0.25s ease-out;
+          }
+        `}
+      </style>
+    </>
+  );
+};
 
 export default Navbar;
