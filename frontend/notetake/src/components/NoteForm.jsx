@@ -1,22 +1,32 @@
 import { X } from "lucide-react";
 import axiosInstance from "../utils/axiosInstance";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 const NoteForm = ({ onClick }) => {
     const [noteData,SetNoteData] = useState({
         title : "",
         content : ""
     })
+    const navigate = useNavigate();
 
     const handleChanges = (e)=>{
         SetNoteData({...noteData,[e.target.name] : e.target.value})
     }
 
+
+
     const handleCreateNote = async()=>{
         try{
-            console.log(noteData)
-            const response = await axiosInstance.post("/notes",noteData)
+            
+            const response = await axiosInstance.post("/notes",{
+              noteData : noteData,
+              token : localStorage.getItem("token")
+            } )
             console.log(response);
+            navigate("/notes")
+            
 
         } catch(error){
             console.log(error)

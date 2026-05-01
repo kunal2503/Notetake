@@ -4,7 +4,7 @@ const cors = require("cors");
 const connectDB = require("./config/connectDB");
 const authRouter = require("./router/authRouter");
 const noteRouter = require("./router/noteRouter");
-
+const authMiddleware = require("./middleware/authMiddleware");
 
 const app = express();
 
@@ -25,7 +25,7 @@ const startServer = async () => {
     }
     
     app.use("/api/v1",authRouter);
-    app.use("/api/v1",noteRouter);
+    app.use("/api/v1",authMiddleware,noteRouter);
     
     app.get("/",(req,res)=>{
         console.log("Hello from root.")
