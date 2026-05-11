@@ -26,6 +26,7 @@ const startServer = async () => {
     
     app.use("/api/v1",authRouter);
     app.use("/api/v1",authMiddleware,noteRouter);
+    app.use("/api/v1",authMiddleware,userRouter);
     
     app.get("/",(req,res)=>{
         console.log("Hello from root.")

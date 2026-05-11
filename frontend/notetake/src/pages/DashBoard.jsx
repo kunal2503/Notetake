@@ -15,6 +15,7 @@ const Dashboard = () => {
     edited: 0,
     deleted: 0,
   });
+ 
   const navigate = useNavigate();
 
   const toggleForm = () => setIsOpen(!isOpen);
@@ -46,12 +47,15 @@ const Dashboard = () => {
     }
   };
 
-  useEffect(() => {
-    fetchNotes();
+ 
+
+  useEffect(  () => {
+   
+      fetchNotes();
   }, []);
 
   const recentNotes = notes.slice(0, 6);
-
+  
   return (
     <div className="min-h-screen bg-gray-50 px-4 sm:px-6 md:px-8 py-6 md:py-10 overflow-y-auto">
       <div className="max-w-7xl mx-auto">

@@ -2,6 +2,16 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../model/user")
 
+const generateAccessToken = (userId) =>{
+    return jwt.sign({id :userId},process.env.ACCESS_TOKEN_SECRET,{expiresIn : "15m"});
+}
+
+const generateRefreshToken = (userId) =>{
+    return jwt.sign({id :userId},process.env.ACCESS_TOKEN_SECRET,{expiresIn : "30d"});
+}
+
+
+
 
 const signin = async(req,res)=>{
     try{
@@ -17,15 +27,18 @@ const signin = async(req,res)=>{
         if(!isPasswordCorrect){
             return res.status(400).json({message : "Invalid credentials"});
         }
-        const token = jwt.sign({id : userExist._id},"kunalkd",{expiresIn : "1d"});
+        const accessToken = generateAccessToken(userExist._id);
+        const refreshToken = generateRefreshToken(userExist._id);
+
+        res.cookie("refreshToken",refreshToken,{
+            httpOnly : true,
+            secure : true,
+            sameSite : "strict"
+        })
 
         res.status(200).json({
             message: "Login successful",
-            token: token,
-            user: {
-                username: userExist.username,
-                email: userExist.email
-            }
+            accessToken,
         });
     } catch(error){
         res.status(500).json({message :"Internal server error"});
@@ -53,19 +66,42 @@ const signup = async(req,res)=>{
             password : saltedPassword
         });
 
-        const token = jwt.sign({id : newUser._id},"kunalkd",{expiresIn : "1d"});
+        const accessToken = generateAccessToken(newUser._id);
+        const refreshToken = generateRefreshToken(newUser._id);
+
+        res.cookie("refreshToken",refreshToken,{
+            httpOnly : true,
+            secure : true,
+            sameSite : "strict"
+        })
 
         res.status(200).json({
             message: "New account created",
-            token: token,
-            user: {
-                username: newUser.username,
-                email: newUser.email
-            }
+            accessToken,
         });
     } catch(error){
         res.status(500).json({message :"Internal server error"});
     }
 }
 
-module.exports = {signin,signup}
+
+const signout = async(req,res) =>{
+    try{
+        const userId = req.user.id;
+    
+        res.clearCookie("refreshToken",
+            {
+                httpOnly : true,
+                secure : true,
+                sameSite : "strict"
+            }
+        );
+        res.status(200).json({message : "Logout successful"});
+    } catch(error){
+        res.status(500).json({message : "Internal server error"});
+    }
+}
+
+
+
+module.exports = {signin,signup,signout}
