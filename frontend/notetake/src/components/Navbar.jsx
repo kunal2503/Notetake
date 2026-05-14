@@ -48,7 +48,7 @@ const Navbar = () => {
             </NavLink>
 
             <NavLink
-              to="/Notes"
+              to="/notes"
               className={({ isActive }) =>
                 `${navLinkClass} ${
                   isActive

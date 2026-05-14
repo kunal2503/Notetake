@@ -35,16 +35,13 @@ const Signin = () => {
         formData
       );
 
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem(
-          "user",
-          JSON.stringify(response.data.user)
-        );
-
+        const accessToken = response.data.accessToken;
+        if (accessToken) {
+          localStorage.setItem("token", accessToken);
+        }
         navigate("/");
       }
-    } catch (err) {
+     catch (err) {
       setError(
         err.response?.data?.message || "Something went wrong"
       );

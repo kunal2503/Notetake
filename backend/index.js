@@ -4,6 +4,7 @@ const cors = require("cors");
 const connectDB = require("./config/connectDB");
 const authRouter = require("./router/authRouter");
 const noteRouter = require("./router/noteRouter");
+const userRouter = require("./router/userRouter");
 const authMiddleware = require("./middleware/authMiddleware");
 
 const app = express();

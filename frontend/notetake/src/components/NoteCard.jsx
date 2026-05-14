@@ -13,18 +13,9 @@ const NoteCard = ({ note }) => {
     navigate(`/note/${note._id}/edit`, { state: { note } });
   };
 
-  const handleDelete = async () => {
-    try {
-        navigate(`/note/${note._id}/delete`)
-      
-    } catch (error) {
-      console.error("Error deleting note:", error);
-    }
+  const handleDelete = () => {
+    navigate(`/note/${note._id}/delete`);
   };
-
-  const handleNoteDelete = async () =>{
-      navigate(`/note/${note._id}/delete`)
-  }
 
   return (
     <div className="group bg-white border border-gray-200 rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 shadow-sm hover:shadow-lg transition duration-300 cursor-pointer relative hover:border-gray-300">

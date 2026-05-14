@@ -17,21 +17,23 @@ const NoteForm = ({ onClick }) => {
 
 
 
-    const handleCreateNote = async()=>{
-        try{
-            
-            const response = await axiosInstance.post("/notes",{
-              noteData : noteData,
-              token : localStorage.getItem("token")
-            } )
-            console.log(response);
-            navigate("/notes")
-            
-
-        } catch(error){
-            console.log(error)
+    const handleCreateNote = async () => {
+        if (!noteData.title.trim() || !noteData.content.trim()) {
+            alert("Title and content cannot be empty");
+            return;
         }
-    }
+
+        try {
+            await axiosInstance.post("/notes", {
+                title: noteData.title.trim(),
+                content: noteData.content.trim(),
+            });
+            navigate("/notes");
+        } catch (error) {
+            console.error("Error creating note:", error);
+            alert(error.response?.data?.message || "Failed to create note");
+        }
+    };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm">

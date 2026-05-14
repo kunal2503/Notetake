@@ -1,20 +1,22 @@
 import Navbar from "../components/Navbar";
-import Dashboard from "../pages/DashBoard";
-import {  Route, Routes } from "react-router-dom";
+import Dashboard from "../pages/Dashboard";
+import { Route, Routes } from "react-router-dom";
 import Notes from "../pages/Notes";
 import NotFound from "../pages/NotFound";
 import NoteView from "../components/NoteView";
 import NoteEdit from "../components/NoteEdit";
-import NoteForm from "../components/NoteForm";
 import NoteDeleteToast from "../components/NoteDeleteToast";
 
 const MainLayout = () => {
+    
+
     return (
-        <div className="w-full h-screen flex flex-row items-start justify-start">
-            <div className="fixed top-0 w-full h-1/10 bg-gray-200">
+        <div className="w-full h-screen flex flex-col">
+            <div className="fixed top-0 w-full z-50 bg-gray-200">
                 <Navbar />
             </div>
-            <div className="w-full h-full mt-10">
+
+            <div className="flex-1 mt-20 overflow-y-auto">
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/notes" element={<Notes />} />
@@ -25,7 +27,7 @@ const MainLayout = () => {
                 </Routes>
             </div>
         </div>
-    )
-}   
+    );
+};
 
 export default MainLayout;
